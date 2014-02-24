@@ -1,7 +1,6 @@
 //opens initial anonymous function
 $(document).ready(function() {
 
-
 /*initialize some potential variables*/
 
 var questionsAnswered = 0; // counter for number of questions answered
@@ -22,7 +21,7 @@ var questions = [{
 },
 {
      question: "What is a jibe?",
-     choices: ["A type of boat", "A sail", "tacking downwind" ],
+     choices: ["A type of boat", "A sail", "a tacking downwind maneuver" ],
      answer: 2
 },
 {
@@ -31,61 +30,78 @@ var questions = [{
      answer: 0
 },
 {
-     question: "coming about is...",
+     question: "Coming about is...",
      choices: ["a type of tacking maneuver", "a man overboard procedure", "a way to board another vessel" ],
      answer: 0
 },
 {
-     question: "question five here",
-     choices: ["possible-answer-01", "possible-answer-02", "possible-answer-03" ],
-     answer: 4
+     question: "The point of sail perpendicular to the wind (90 degrees off the wind) is:",
+     choices: ["Beam Reach", "Running", "Broad Reach" ],
+     answer: 0
 },
 {
-     question: "question six here",
-     choices: ["possible-answer-01", "possible-answer-02", "possible-answer-03" ],
-     answer: 5
+     question: "A sheet is:",
+     choices: ["a sail", "line that controls a sail", "a reefing line" ],
+     answer: 1
 },
 {
-     question: "question seven here",
-     choices: ["possible-answer-01", "possible-answer-02", "possible-answer-03" ],
-     answer: 6
+     question: "If you are going to hit something, what should you do?",
+     choices: ["Shout for help", "Luff your sails", "Turn the tiller towards trouble" ],
+     answer: 2
 },
 {
-     question: "question eight here",
-     choices: ["possible-answer-01", "possible-answer-02", "possible-answer-03" ],
-     answer: 7
+     question: "When rigging your boat where should you point?",
+     choices: ["Into the wind", "Downwind", "90 degrees to the wind" ],
+     answer: 0
 },
 {
-     question: "question nine here",
-     choices: ["possible-answer-01", "possible-answer-02", "possible-answer-03" ],
-     answer: 8
+     question: "To get 'out of irons' what should you do?",
+     choices: ["Trim your mainsail", "Pull the tiller towards you", "Trim your jib" ],
+     answer: 1
 },
 {
-     question: "question ten here",
-     choices: ["possible-answer-01", "possible-answer-02", "possible-answer-03" ],
-     answer: 9
+     question: "To right your boat after capsizing you would:",
+     choices: ["Stand on the centerboard", "Pull on the bowline", "Push from the stern" ],
+     answer: 0
 },
 ];
 
-// this is the main quiz function which should handle everything
+// begin quiz function
 var quiz = function() {
 
-//resetGame function clears out two text fields and increments varialbe and puts question in #question <li>
-	var resetQuiz = function() { 
-		$("#correctAnswers").html("");
-		$("#incorrectAnswers").html("");
-		newQuestion();
-		}; //closes the resetQuiz function
+        //begin resetQuiz function
+    	var resetQuiz = function() { 
+    		$("#correctAnswers").html("");
+    		$("#incorrectAnswers").html("");
+    		currentQuestion = 0;
+            newQuestion();
+    	}; //closes the resetQuiz function
 
-	var newQuestion = function() {
-		$("ul#question").html("");
-		$("ul#answers").html("");
-		$("ul#question").append("<li>" + questions[currentQuestion].question + "</li>");
-		for (n=0; n<questions[currentQuestion].choices.length; n++) {
-		$("ul#answers").append("<li><input type='radio' name='answer' value=' "+ n +" '>" + questions[currentQuestion].choices[n] + "</li>");
-		}
-		};//closes the newQuestion function
+    	//begin newQuestion function
+        var newQuestion = function() {
+    		$("ul#question").html("");
+    		$("ul#answers").html("");
+    		$("#currentQuestion").html("Question #" + parseInt(currentQuestion + 1));
 
+                //part that belongs in the main function not in event listener
+                if (currentQuestion < questions.length) {
+                $("#currentQueswtion").html("Question #" + (currentQuestion +1 ));
+                } else {
+                $("#currentQuestion").html("You have reached the end of the quiz. Start over...");
+                }
+
+    		$("ul#question").append("<li>" + questions[currentQuestion].question + "</li>");
+    		for (n=0; n<questions[currentQuestion].choices.length; n++) {
+    		$("ul#answers").append("<li><input type='radio' name='answer' value=' "+ n +" '>" + questions[currentQuestion].choices[n] + "</li>");
+    		}
+        };//closes the newQuestion function
+
+    		$("#resetQuiz").click(function() { //why do you need a (function()) for this?
+            resetQuiz();
+            }); //closes resetQuiz click function
+
+
+    // begin submit event listener function
 	$("#form").submit(function(event) {
 		event.preventDefault();
 		//store what user clicked on in response
@@ -93,8 +109,7 @@ var quiz = function() {
 			if($(this).is(":checked")) {
 				response = $(this).val();
 			}
-			
-		});
+	   }); //closes the input radio button function
 
     	if (response == questions[currentQuestion].answer) {
     		guessCount++;
@@ -104,16 +119,24 @@ var quiz = function() {
     		wrongGuessCount++;
     		console.log(wrongGuessCount);
     		$("#incorrectAnswers").html("<li>" + wrongGuessCount + "</li>")
-
     	}
 
 		currentQuestion++; //make sure that ultimate number of current questions is equal to questions.length
-		newQuestion(); 
-		});
+		
+		newQuestion();
+
+		// if (currentQuestion < questions.length) {
+		// 	$("#currentQueswtion").html("Question #" + (currentQuestion +1 ));
+		// } else {
+		// 	$("#currentQuestion").html("You have reached the end of the quiz. Start over...");
+		// }
+
+	}); //closes the submit event listener function
 
 resetQuiz();
 
-} //closes the quiz function
+
+}; //closes the quiz function
 	
 
 

@@ -57,7 +57,7 @@ table {
 
 /* END reset */
 
-/* list box styles */
+/* quiz box styles */
 
 #list-box {
 	width: 600px;
@@ -69,14 +69,8 @@ table {
 	border-radius: 5px;
 }
 
-/* list styles */
 
-#answers li {
-	margin: 20px 0px;
-	font-size: 14px;
-}
-
-/* list box text styles */
+/* quiz text styles */
 
 h2 {
 	font-size: 20px;
@@ -85,18 +79,33 @@ h2 {
 	margin-bottom: 40px;
 }
 
+h2#currentQuestion {
+	font-size: 16px;
+}
+
+p {
+	margin-top: 20px;
+}
+
+#question li {
+	font-size: 16px;
+	margin-bottom: 20px;
+}
+
+#answers li {
+	font-size: 14px;
+	margin-bottom: 20px;
+	color: #666;
+}
+
 /* form input styles */
 
-input[type=text] {
-	width: 300px;
-	height: 30px;
-	padding: 10px;
-	border-radius: 3px;
-	border-radius: 1px solid #ccc;
+input[type=radio] {
+	margin-right: 10px;
 }
 
 /* clicked styles  */
 
-.clicked {
+/*.clicked {
 	text-decoration: line-through;
-}
+}*/
