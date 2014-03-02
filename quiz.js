@@ -4,9 +4,7 @@ $(document).ready(function() {
 /*initialize some potential variables*/
 
 var questionsAnswered = 0; // counter for number of questions answered
-var status; // will convert a boolean to 'correct' or 'incorrect'
 var response; //user response
-var numChoices = 3; // stores how many choices each question will have so that if it changes, loops in program will automatically changes
 var currentQuestion = 0; //marks the question that the user is on
 var correctAnswer; //correct answer
 var guessCount = 0; //current number of guesses
@@ -73,7 +71,10 @@ var quiz = function() {
     	var resetQuiz = function() { 
     		$("#correctAnswers").html("");
     		$("#incorrectAnswers").html("");
-    		currentQuestion = 0;
+            currentQuestion = 0;
+            correctAnswer = 0;
+            wrongGuessCount = 0;
+
             newQuestion();
     	}; //closes the resetQuiz function
 
@@ -85,7 +86,7 @@ var quiz = function() {
 
                 //part that belongs in the main function not in event listener
                 if (currentQuestion < questions.length) {
-                $("#currentQueswtion").html("Question #" + (currentQuestion +1 ));
+                $("#currentQuestion").html("Question #" + (currentQuestion + 1));
                 } else {
                 $("#currentQuestion").html("You have reached the end of the quiz. Start over...");
                 }
@@ -94,6 +95,7 @@ var quiz = function() {
     		for (n=0; n<questions[currentQuestion].choices.length; n++) {
     		$("ul#answers").append("<li><input type='radio' name='answer' value=' "+ n +" '>" + questions[currentQuestion].choices[n] + "</li>");
     		}
+            
         };//closes the newQuestion function
 
     		$("#resetQuiz").click(function() { //why do you need a (function()) for this?
@@ -112,12 +114,11 @@ var quiz = function() {
 	   }); //closes the input radio button function
 
     	if (response == questions[currentQuestion].answer) {
-    		guessCount++;
-    		console.log(guessCount);
-    		$("#correctAnswers").html("<li>" + guessCount + "</li>")
+            correctAnswer++;
+    		$("#correctAnswers").html("<li>" + correctAnswer + "</li>")
     	} else {
     		wrongGuessCount++;
-    		console.log(wrongGuessCount);
+    		// console.log(wrongGuessCount);
     		$("#incorrectAnswers").html("<li>" + wrongGuessCount + "</li>")
     	}
 
@@ -125,11 +126,6 @@ var quiz = function() {
 		
 		newQuestion();
 
-		// if (currentQuestion < questions.length) {
-		// 	$("#currentQueswtion").html("Question #" + (currentQuestion +1 ));
-		// } else {
-		// 	$("#currentQuestion").html("You have reached the end of the quiz. Start over...");
-		// }
 
 	}); //closes the submit event listener function
 
@@ -138,8 +134,6 @@ resetQuiz();
 
 }; //closes the quiz function
 	
-
-
 quiz(); //calls the main quiz function
 
 }); // closes main anonymous function
